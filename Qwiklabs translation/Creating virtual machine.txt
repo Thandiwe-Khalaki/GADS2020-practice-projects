@@ -1,0 +1,49 @@
+CREATING A VIRTUAL MACHINE
+
+OVERVIEW
+In this lab, you will explore the Virtual Machine instance options and create several VMs with different characteristics.
+
+OBJECTIVES
+In this lab, you explore the available options for VMs and see the differences between locations.
+In this lab, you learn how to perform the following tasks:
+1. Create several standard VMs
+2. Create advanced VMs
+
+TASK 1: CREATE A UTILITY VIRTUAL MACHINES
+
+1.1 CREATE A VM
+
+gcloud  compute instances create instance-1 --zone=us-central1-c --machine-type=n1-standard-1 --subnet=default --no-address
+
+1.2.1 EXPLORE VM DETAILS
+gcloud compute instances describe instance-1 
+
+1.2.2 EXAMINE AVAILABILITY POLICIES
+gcloud compute resource-policies list
+
+
+# TASK 2: CREATE A WINDOWS VIRTUAL MACHINE 
+
+2.1 CREATE A VM
+
+gcloud compute instances create instance-2 --zone=europe-west2-a --machine-type=n1-standard-2 --image=windows-server-2016-dc-core-v20200813 --image-project=windows-cloud --boot-disk-size=100GB --boot-disk-type=pd-ssd --boot-disk-device-name=instance-2 --no-shielded-secure-boot --shielded-vtpm --tags=http-server,https-server
+gcloud compute firewall-rules create default-allow-http --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:80 --source-ranges=0.0.0.0/0 --target-tags=http-server
+gcloud compute firewall-rules create default-allow-https --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:443 --source-ranges=0.0.0.0/0 --target-tags=https-server
+
+2.2 SET THE PASSWORD FOR THE VM
+gcloud compute reser-windows-password instance-2
+
+
+# TASK 3: CREATE A CUSTOM VIRTUAL MACHINE
+
+3.1 Create a VM
+gcloud compute instances create instance-4 --zone=us-west1-b --custom-cpu 6 --custom-memory 32
+
+3.2 CONNECT VIA SSH TO YOUR CUSTOM MACHINE
+free
+sudo dmidecode -t 17
+nproc
+lscpu
+exit
+
+
